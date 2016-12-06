@@ -7,8 +7,7 @@ import com.company.bank.monoStatePatten.TotalBalanceMonoState;
  */
 public class SavingAccount extends AbstractAccount implements Account {
 
-    private int PENALTY = 5;
-    Object sysObj_ = new Object();
+    private final static int PENALTY = 5;
 
     public SavingAccount(int id, TotalBalanceMonoState totalBalanceMonoState) {
         super(id, totalBalanceMonoState);

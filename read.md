@@ -4,3 +4,4 @@ Design Patterns
 
 - Listener
 - Mono State
+- Command

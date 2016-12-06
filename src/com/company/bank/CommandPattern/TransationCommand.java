@@ -1,4 +1,4 @@
-package com.company.bank.transationPattern;
+package com.company.bank.CommandPattern;
 
 /**
  * Created by G710 on 06/12/2016.

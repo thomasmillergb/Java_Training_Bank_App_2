@@ -1,9 +1,9 @@
 package com.company.bank.teller;
 
 import com.company.bank.account.Account;
-import com.company.bank.transationPattern.DepositCommand;
-import com.company.bank.transationPattern.TransationCommand;
-import com.company.bank.transationPattern.WidthdrawCommand;
+import com.company.bank.CommandPattern.DepositCommand;
+import com.company.bank.CommandPattern.TransationCommand;
+import com.company.bank.CommandPattern.WidthdrawCommand;
 
 import java.util.ArrayDeque;
 import java.util.List;

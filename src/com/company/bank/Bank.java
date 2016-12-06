@@ -30,6 +30,39 @@ public class Bank {
         BalanceListener allBalanceListener = new AllBalanceListenerImpl();
         BalanceListener savingBalanceListener = new AllBalanceListenerImpl();
         BalanceListener currentBalanceListener = new AllBalanceListenerImpl();
+        createAccounts(accounts, totalBalanceMonoState, allBalanceListener, savingBalanceListener, currentBalanceListener);
+        List<Teller> tellers = new LinkedList<>();
+
+        performTransation(accounts, tellers);
+
+        printSummary(accounts, totalBalanceMonoState, allBalanceListener, savingBalanceListener, currentBalanceListener);
+
+
+    }
+
+    private static void performTransation(List<Account> accounts, List<Teller> tellers) {
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        IntStream.range(0, 100).forEach(a -> tellers.add(new Teller(accounts)));
+        tellers.forEach(executorService::submit);
+        executorService.shutdown();
+        try {
+            while (!executorService.awaitTermination(400, TimeUnit.MILLISECONDS)) {
+                System.out.println("not finished");
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void printSummary(List<Account> accounts, TotalBalanceMonoState totalBalanceMonoState, BalanceListener allBalanceListener, BalanceListener savingBalanceListener, BalanceListener currentBalanceListener) {
+        accounts.forEach(account -> System.out.println("Account id : " + account.getID() + " Account Balance : " + account.getBalance()));
+        System.out.println("Total Balance Mono Sate: " + totalBalanceMonoState.getTotalBalance());
+        System.out.println("Total Balance Listener: " + allBalanceListener.getTotalBalance());
+        System.out.println("Total Balance Saving Listener: " + savingBalanceListener.getTotalBalance());
+        System.out.println("Total Balance Current Listener: " + currentBalanceListener.getTotalBalance());
+    }
+
+    private static void createAccounts(List<Account> accounts, TotalBalanceMonoState totalBalanceMonoState, BalanceListener allBalanceListener, BalanceListener savingBalanceListener, BalanceListener currentBalanceListener) {
         IntStream.range(0, 10).forEach(a -> {
             Account savingAccount = new CurrentAccount(a, totalBalanceMonoState);
             savingAccount.addBalanceListener(allBalanceListener);
@@ -44,31 +77,6 @@ public class Bank {
             accounts.add(savingAccount);
 
         });
-        List<Teller> tellers = new LinkedList<>();
-
-        ExecutorService executorService = Executors.newCachedThreadPool();
-        IntStream.range(0, 100).forEach(a -> tellers.add(new Teller(accounts)));
-
-//        tellers.forEach(teller -> threads.add(new Thread(teller)));
-        tellers.forEach(executorService::submit);
-        executorService.shutdown();
-        try {
-            while (!executorService.awaitTermination(400, TimeUnit.MILLISECONDS)) {
-                System.out.println("not finished");
-
-            }
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        accounts.forEach(account -> System.out.println("Account id : " + account.getID() + " Account Balance : " + account.getBalance()));
-        System.out.println("Total Balance Mono Sate: " + totalBalanceMonoState.getTotalBalance());
-        System.out.println("Total Balance Listener: " + allBalanceListener.getTotalBalance());
-        System.out.println("Total Balance Saving Listener: " + savingBalanceListener.getTotalBalance());
-        System.out.println("Total Balance Current Listener: " + currentBalanceListener.getTotalBalance());
-
-
     }
 
     //Impl 1

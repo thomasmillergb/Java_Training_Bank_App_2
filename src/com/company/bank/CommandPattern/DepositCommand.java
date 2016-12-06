@@ -3,7 +3,7 @@ package com.company.bank.CommandPattern;
 import com.company.bank.account.Account;
 
 /**
- * Created by G710 on 06/12/2016.
+ * Created by G710 on 06/12/2016
  */
 public class DepositCommand implements TransationCommand {
     Account account_;

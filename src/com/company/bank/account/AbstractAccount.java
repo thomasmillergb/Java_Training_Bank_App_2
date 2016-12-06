@@ -46,13 +46,4 @@ public abstract class AbstractAccount  {
         return totalBalanceMonoState_;
     }
 
-
-    public List<BalanceListener> getBalanceListeners() {
-        return balanceListeners_;
-    }
-
-
-    public Object getSysObj() {
-        return sysObj_;
-    }
 }
